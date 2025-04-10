@@ -1,8 +1,6 @@
 #include "msp430fr2355.h"
 #include <driverlib.h>
 
-
-
 void ConfigureIGNITER_LED() {
 
     //Set P5 to output
