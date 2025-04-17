@@ -1,7 +1,6 @@
-#include "msp430fr2355.h"
-#include <driverlib.h>
+#include "pilot.h"
 
-void ConfigurePILOT() {
+void pilot_Init() {
 
     //Set P5 to output
 
@@ -13,7 +12,7 @@ void ConfigurePILOT() {
     
 }
 
-void SetPILOT(bool state) {
+void pilot_Control(bool state) {
 // state = true : Turn IGNITER LED on
 // state = false : Turn IGNITE LED off
 

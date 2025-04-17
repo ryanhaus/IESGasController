@@ -49,20 +49,14 @@
 //  Built with Code Composer Studio v8
 //***************************************************************************************
 
-#include <driverlib.h>
+#include "msp430fr2355.h"
+#include "rgb_led.h"
 
 int main(void) {
 
-    volatile uint32_t i;
+    WDTCTL = WDTPW | WDTHOLD;                 // Stop WDT
 
-    // Stop watchdog timer
-    WDT_A_hold(WDT_A_BASE);
-
-    // Set P1.0 to output direction
-    GPIO_setAsOutputPin(
-        GPIO_PORT_P1,
-        GPIO_PIN0
-        );
+    rgbLed_Init();
 
     // Disable the GPIO power-on default high-impedance mode
     // to activate previously configured port settings
@@ -70,13 +64,17 @@ int main(void) {
 
     while(1)
     {
-        // Toggle P1.0 output
-        GPIO_toggleOutputOnPin(
-            GPIO_PORT_P1,
-            GPIO_PIN0
-            );
+        rgbLed_SetPWM(255, 0, 0);
 
-        // Delay
-        for(i=10000; i>0; i--);
+        // __delay_cycles(1000000);
+
+        // rgbLed_SetPWM(0, 255, 0);
+
+        // __delay_cycles(1000000);
+
+        // rgbLed_SetPWM(0, 0, 255);
+
+        // __delay_cycles(1000000);
     }
 }
+

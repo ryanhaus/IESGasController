@@ -1,7 +1,6 @@
-#include "msp430fr2355.h"
-#include <driverlib.h>
+#include "igniter_led.h"
 
-void ConfigureIGNITER_LED() {
+void igniter_Init() {
 
     //Set P5 to output
 
@@ -13,7 +12,7 @@ void ConfigureIGNITER_LED() {
     
 }
 
-void SetIGNITER_LED(bool state) {
+void  igniter_Control(bool state) {
 // state = true : Turn IGNITER LED on
 // state = false : Turn IGNITE LED off
 
