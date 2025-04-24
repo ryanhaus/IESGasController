@@ -1,8 +1,9 @@
 #include "pilot.h"
+#include <msp430fr2355.h>
 
 void pilot_Init() {
 
-    //Set P5 to output
+    //Set P5.4 to output
 
     P5OUT &= ~BIT4;
 
@@ -20,3 +21,14 @@ void pilot_Control(bool state) {
 
 }
 
+bool pilot_Status() {
+    
+    if ( (P5OUT &= BIT4) == BIT4) {
+        return true;
+    }
+
+    else {
+        return false;
+    }
+
+}
