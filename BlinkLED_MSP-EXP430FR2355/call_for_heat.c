@@ -1,5 +1,6 @@
 #include "call_for_heat.h"
 #include <msp430fr2355.h>
+#include <stdio.h>
 
 void callForHeat_Init()
 {
