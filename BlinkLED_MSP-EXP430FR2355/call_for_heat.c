@@ -3,6 +3,7 @@
 #include "pilot.h"
 #include <iso646.h>
 #include <msp430fr2355.h>
+#include <stdio.h>
 
 void callForHeat_Init()
 {

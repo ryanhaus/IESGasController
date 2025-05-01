@@ -1,96 +1,78 @@
+/* --COPYRIGHT--,BSD
+ * Copyright (c) 2018, Texas Instruments Incorporated
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * *  Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * *  Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * *  Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * --/COPYRIGHT--*/
 //***************************************************************************************
-//  Title
+//  Blink the LED Demo - Software Toggle P1.0
 //
-//  Description;
-//  Authours: 
-//  Rowan University
-//  IES S1
-//  Date:
-//  Built with Code Composer Studio ______
+//  Description; Toggle P1.0 inside of a software loop using DriverLib.
+//  ACLK = n/a, MCLK = SMCLK = default DCO
+//
+//                MSP4302355
+//             -----------------
+//         /|\|              XIN|-
+//          | |                 |
+//          --|RST          XOUT|-
+//            |                 |
+//            |             P1.0|-->LED
+//
+//  E. Chen
+//  Texas Instruments, Inc
+//  May 2018
+//  Built with Code Composer Studio v8
 //***************************************************************************************
 
-#include "igniter_led.h"
-#include "intrinsics.h"
 #include "msp430fr2355.h"
-#include "adc.h"
-#include "call_for_heat.h"
-#include "main_valve.h"
-#include "pilot.h"
-#include "potentiometer.h"
 #include "rgb_led.h"
-#include "thermistor.h"
-#include "thermocouple.h"
-
 
 int main(void) {
-    // red LED -> pilot light check failed
-    // green led -> pilot light check passed
 
     WDTCTL = WDTPW | WDTHOLD;                 // Stop WDT
 
-    adc_Init();
-    callForHeat_Init();
-    mainValve_Init();
-    pilot_Init();
-    potent_Init();
     rgbLed_Init();
-    therm_Init();
-    flame_Init();
 
-    // arbitrary values as of now
+    PM5CTL0 &= ~LOCKLPM5; // disable high-impedance mode
 
-    int const valve_OPEN = 100;  // Set to ocnst for tuning               // Make valve_SP a output of a function for PID implementation
-    int const valve_CLOSE = 0; // Set to const for tuning
-
-    // Disable the GPIO power-on default high-impedance mode
-    // to activate previously configured port settings
-    PMM_unlockLPM5();
- 
     while(1)
     {
-        if (callForHeat_Detect()) {
+        rgbLed_SetPWM(255, 0, 0);
 
-            pilot_Control(true); // enable pilot light
-            igniter_Control(true); // enable igniter (the led)
+        // __delay_cycles(1000000);
 
-            if (flame_Detect()) {  // thermocouple check
+        // rgbLed_SetPWM(0, 255, 0);
 
-                rgbLed_SetPWM(0, 255, 0);               // green led -> pilot light check passed
+        // __delay_cycles(1000000);
 
-                mainValve_SetPosition(valve_OPEN);        // open pilot valve to start heating
+        // rgbLed_SetPWM(0, 0, 255);
 
-                if (therm_Read() >= potent_Read()) {    // check if heat is past set point
-
-                    pilot_Control(false);               // close valve and turn off pilot light
-                    mainValve_SetPosition(valve_CLOSE);
-                    
-                    igniter_Control(false);             // disable igniter
-
-                    rgbLed_Init(0, 0, 255);             // blue led -> temp reached
-
-                    //low power mode should be handled by interupt
-                    __bis_SR_register(CPUOFF);
-                }
-
-
-            }
-            
-            else { // thermocouple check failed
-
-                rgbLed_SetPWM(255, 0, 0);               // red led -> pilot light check failed
-
-                pilot_Control(false);                   // close pilot light to stop gas from leaking
-
-            }
-
-        }
-
-        else {
-            // low power mode should be handled by interupt either way
-            __bis_SR_register(CPUOFF);
-
-        }
-
+        // __delay_cycles(1000000);
     }
-
 }
+
