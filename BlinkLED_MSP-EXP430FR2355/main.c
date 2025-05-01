@@ -71,7 +71,7 @@ int main(void) {
                     rgbLed_Init(0, 0, 255);             // blue led -> temp reached
 
                     //low power mode should be handled by interupt
-                    __bis_SR_register(CPUOFF);
+                    //__bis_SR_register(CPUOFF);
                 }
 
 
