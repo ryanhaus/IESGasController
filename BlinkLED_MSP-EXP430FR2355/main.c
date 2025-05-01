@@ -32,6 +32,7 @@ int main(void) {
     callForHeat_Init();
     mainValve_Init();
     pilot_Init();
+    igniter_Init();
     potent_Init();
     rgbLed_Init();
     therm_Init();
@@ -88,7 +89,7 @@ int main(void) {
 
         else {
             // low power mode should be handled by interupt either way
-            __bis_SR_register(CPUOFF);
+            __no_operation();
 
         }
 

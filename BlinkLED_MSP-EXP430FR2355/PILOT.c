@@ -14,8 +14,8 @@ void pilot_Init() {
 }
 
 void pilot_Control(bool state) {
-// state = true : Turn IGNITER LED on
-// state = false : Turn IGNITE LED off
+// state = true : Turn Solenoid on
+// state = false : Turn Solenoid off
 
     (state == true) ? (P5OUT |= BIT4) : (P5OUT &= ~BIT4);
 

@@ -23,8 +23,8 @@ void rgbLed_Init() {
 */
 void rgbLed_SetPWM(char Red, char Green, char Blue) 
 {
-    TB3CCR3 = Red << 2;
+    TB3CCR3 = Blue << 2;
     TB3CCR2 = Green << 2;
-    TB3CCR1 = Blue << 2;
+    TB3CCR1 = Red << 2;
 }
 
