@@ -58,9 +58,7 @@ int main(void) {
 
     rgbLed_Init();
 
-    // Disable the GPIO power-on default high-impedance mode
-    // to activate previously configured port settings
-    PMM_unlockLPM5();
+    PM5CTL0 &= ~LOCKLPM5; // disable high-impedance mode
 
     while(1)
     {
