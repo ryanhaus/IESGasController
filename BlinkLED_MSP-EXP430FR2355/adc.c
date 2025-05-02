@@ -13,7 +13,7 @@ void adc_Init()
 void adc_StartRead()
 {
     ADCCTL0 |= ADCENC | ADCSC;                           // Sampling and conversion start
-    __bis_SR_register(LPM0_bits | GIE);                  // LPM0, ADC_ISR will force exit
+    __bis_SR_register(GIE);                  // LPM0, ADC_ISR will force exit
 
     __delay_cycles(20);
 }

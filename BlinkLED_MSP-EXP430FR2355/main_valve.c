@@ -11,11 +11,13 @@ void mainValve_Init()
     P2DIR |= BIT1;                   // Set P2.1 as output
     P2SEL0 |= BIT1;                  // Select TB1.2 function
     P2SEL1 &= ~BIT1;
+
+    mainValve_SetPosition(0);
 }
 
 
 void mainValve_SetPosition(uint8_t pos)
 {
     // 500 us - 2500 us range
-    TB3CCR1 = 500 + (2000 * pos) / 256;
+    TB1CCR2 = 500 + (2000 * pos) / 256;
 }

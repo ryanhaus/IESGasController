@@ -34,21 +34,7 @@ bool callForHeat_Detect()
 #pragma vector=PORT3_VECTOR
 __interrupt void port3_ISR()
 {
-    // toggle IES to look for the start or end of  "call for heat" signal
-    P3IES ^= BIT0;
-
-    if ( (P3IES &= BIT0) == BIT0) { 
-
-        __bis_SR_register(CPUOFF); // if IES is 0 enter LPM0
-
-    }
-
-    else {
-
-        __bis_SR_register(~CPUOFF); // if IES is 1 exit LPM0
-
-    }
-
     // reset IFG
     P3IFG &= ~BIT0;
+    __bic_SR_register_on_exit(LPM3_bits); // exit
 }
