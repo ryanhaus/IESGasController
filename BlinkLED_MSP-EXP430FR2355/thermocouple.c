@@ -19,20 +19,20 @@ void flame_Init()
         | (0b01 << 4);  // NSEL = 01 → PGA feedback network
 
     SAC0PGA = (0b00 << 0)  // MSEL = 10 → non-inverting PGA mode
-            | (0b111 << 4); // GAIN = 111 → 33× gain :contentReference[oaicite:0]{index=0}
+            | (0b111 << 4); // GAIN = 111 → 33× gain 
 */
     // 2. Map P1.3 into the SAC input path  
     //    (on FR2355, OAx+ pad is on P1.3 itself when SACEN + PMUXEN)
     /*P1SEL1 |= BIT3;  // P1.3 tertiary function
-    P1SEL0 |=  BIT3;  // → route P1.3 to OAx+ :contentReference[oaicite:1]{index=1}&#8203;:contentReference[oaicite:2]{index=2}
+    P1SEL0 |=  BIT3;  // → route P1.3 to OAx+ 
     P1DIR  &= ~BIT3;  // input*/ 
     P1SEL1 |= BIT2;  // P1.2 tertiary function
-    P1SEL0 |=  BIT2;  // → route P1.2 to OAx- :contentReference[oaicite:1]{index=1}&#8203;:contentReference[oaicite:2]{index=2}
+    P1SEL0 |=  BIT2;  // → route P1.2 to OAx-
     P1DIR  &= ~BIT2;  // input
 
     // 3. Route the SAC output (OAxO) to P1.1:
     P1SEL1 |= BIT1;  // P1.1 tertiary function
-    P1SEL0 |= BIT1;  // → route OAxO to P1.1 :contentReference[oaicite:3]{index=3}&#8203;:contentReference[oaicite:4]{index=4}
+    P1SEL0 |= BIT1;  // → route OAxO to P1.1
     P1DIR  |=  BIT1;  // output
     SAC_DAC_selectRefVoltage(SAC0_BASE, SAC_DAC_PRIMARY_REFERENCE);
     SAC_DAC_selectLoad(SAC0_BASE, SAC_DAC_LOAD_DACDAT_WRITTEN);
